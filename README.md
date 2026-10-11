@@ -28,3 +28,5 @@ Recipes, plans and shopping items live in IndexedDB on **this device only**. The
 - Rebuilding a list preserves manual items but resets planned-ingredient checkmarks.
 - Planner displays the next seven days; existing future plans are retained.
 - Add shared accounts, accurate nutrition database, recipe photo import, supermarket pricing and conflict-aware syncing in later versions.
+
+<!-- Trigger initial Vercel deployment -->
