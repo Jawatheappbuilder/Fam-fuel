@@ -1,0 +1,23 @@
+import Dexie,{type Table} from 'dexie';
+export type Ingredient={name:string;qty:number;unit:string};
+export type Recipe={id:string;name:string;category:'Lunch'|'Dinner'|'Both';minutes:number;servings:number;ingredients:Ingredient[];steps:string[];protein?:number;calories?:number;carbs?:number;fat?:number;favourite:boolean;lastCooked?:string;rating?:number;notes?:string;createdAt:string};
+export type Plan={id:string;date:string;meal:'Lunch'|'Dinner';recipeId:string;servings:number};
+export type ShopItem={id:string;name:string;qty:number;unit:string;checked:boolean;manual:boolean};
+class FuelDB extends Dexie{recipes!:Table<Recipe,string>;plans!:Table<Plan,string>;shopping!:Table<ShopItem,string>;constructor(){super('family-fuel-v1');this.version(1).stores({recipes:'id,name,category,favourite,lastCooked',plans:'id,date,meal,recipeId',shopping:'id,name,checked'});}}
+export const db=new FuelDB();
+export const uid=()=>crypto.randomUUID();
+const make=(name:string,category:Recipe['category'],minutes:number,protein:number,calories:number,ingredients:[string,number,string][],steps:string[]):Recipe=>({id:uid(),name,category,minutes,protein,calories,servings:4,ingredients:ingredients.map(([name,qty,unit])=>({name,qty,unit})),steps,favourite:false,createdAt:new Date().toISOString()});
+export const starters:Recipe[]=[
+make('Honey Soy Chicken Bowls','Both',30,42,530,[['Chicken breast',600,'g'],['Rice',300,'g'],['Broccoli',400,'g'],['Soy sauce',60,'mL'],['Honey',40,'g']],['Cook rice according to packet.','Dice chicken and pan-fry until cooked through.','Add soy sauce and honey; simmer briefly.','Steam broccoli and serve in bowls.']),
+make('Beef Taco Bowls','Dinner',25,38,570,[['Lean beef mince',600,'g'],['Rice',280,'g'],['Taco seasoning',25,'g'],['Tomatoes',300,'g'],['Avocado',1,'each'],['Lettuce',150,'g']],['Cook rice.','Brown beef with taco seasoning.','Dice vegetables and avocado.','Assemble bowls and serve.']),
+make('Creamy Chicken Pasta','Dinner',35,45,620,[['Chicken breast',600,'g'],['Pasta',350,'g'],['Light cooking cream',250,'mL'],['Baby spinach',150,'g'],['Garlic',15,'g']],['Boil pasta until al dente.','Cook diced chicken and garlic.','Stir in cream and spinach.','Toss with drained pasta.']),
+make('Tuna & Chickpea Salad','Lunch',10,32,410,[['Tuna in springwater',370,'g'],['Chickpeas',400,'g'],['Cucumber',250,'g'],['Cherry tomatoes',250,'g'],['Olive oil',30,'mL'],['Lemon juice',30,'mL']],['Drain tuna and chickpeas.','Chop vegetables.','Mix everything with oil and lemon.']),
+make('Turkey Burger Wraps','Both',20,36,480,[['Turkey mince',600,'g'],['Wholemeal wraps',4,'each'],['Lettuce',120,'g'],['Tomatoes',250,'g'],['Greek yoghurt',150,'g']],['Shape turkey into patties and cook thoroughly.','Slice tomatoes and lettuce.','Spread yoghurt on wraps, add patties and vegetables.']),
+make('Salmon & Roast Vegetables','Dinner',35,39,560,[['Salmon fillets',600,'g'],['Potatoes',650,'g'],['Carrots',350,'g'],['Zucchini',300,'g'],['Olive oil',30,'mL']],['Preheat oven to 200°C.','Chop vegetables and toss with oil; roast 15 minutes.','Add salmon and roast until cooked through.']),
+make('Chicken Burrito Meal Prep','Lunch',30,44,590,[['Chicken breast',650,'g'],['Rice',300,'g'],['Black beans',400,'g'],['Corn',250,'g'],['Salsa',200,'g']],['Cook rice.','Season and cook diced chicken thoroughly.','Drain beans and corn; warm through.','Divide into four containers with salsa.']),
+make('Lentil Bolognese','Dinner',35,24,510,[['Red lentils',300,'g'],['Pasta',320,'g'],['Crushed tomatoes',800,'g'],['Carrots',250,'g'],['Onion',150,'g']],['Dice onion and carrots and sauté.','Add lentils, tomatoes and water; simmer until tender.','Cook pasta and serve with sauce.']),
+make('Greek Chicken Pitas','Both',25,40,520,[['Chicken breast',600,'g'],['Pita breads',4,'each'],['Greek yoghurt',200,'g'],['Cucumber',250,'g'],['Tomatoes',250,'g']],['Cook seasoned chicken thoroughly.','Dice cucumber and tomatoes.','Fill pitas with chicken, vegetables and yoghurt.']),
+make('Egg Fried Rice','Both',20,23,450,[['Rice',300,'g'],['Eggs',6,'each'],['Frozen mixed vegetables',400,'g'],['Soy sauce',50,'mL']],['Cook rice and cool slightly.','Scramble eggs in a large pan.','Stir-fry vegetables and rice.','Add eggs and soy sauce.'])];
+export async function seed(){if(await db.recipes.count()===0 && !localStorage.getItem('family-fuel-seeded')){await db.recipes.bulkAdd(starters);localStorage.setItem('family-fuel-seeded','yes')}}
+export function scaled(r:Recipe,n:number){return r.ingredients.map(i=>({...i,qty:i.qty*n/r.servings}))}
+export function qty(n:number){return Number(n.toFixed(1)).toString()}
