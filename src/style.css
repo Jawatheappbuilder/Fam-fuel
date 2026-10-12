@@ -32,3 +32,17 @@
 
 /* Compact meal planner success and remove controls */
 .planner-slot-actions{min-width:0;width:100%;display:flex;align-items:center;justify-content:flex-end;gap:12px}.planner-slot-actions .planner-select{flex:1}.planner-done{display:inline-flex;align-items:center;justify-content:center;background:#e2f2e5;border:1px solid #9fceb0;color:#247446;width:48px;height:48px;border-radius:14px;font-size:30px;font-weight:800;line-height:1}.planner-remove{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:1px solid #ead4d1;background:#fff7f6;color:#a14c45;border-radius:12px;font-size:26px;cursor:pointer;line-height:1}
+
+
+/* Compact branded recipe-source chooser with live-count pills */
+.source-filter-wrap{display:block!important;padding:14px!important;background:#fff!important;border:1px solid #e0e8df!important;border-radius:16px!important;margin-bottom:16px!important}
+.source-filter-heading{display:block;color:#294b37;font-size:15px;font-weight:800;margin:0 0 9px}
+.source-options{display:grid;gap:0}
+.source-option{appearance:none;display:flex;align-items:center;gap:10px;min-height:49px;padding:9px 4px;background:transparent;border:0;border-top:1px solid #edf0eb;text-align:left;color:#233a2c;width:100%;cursor:pointer;font:inherit}
+.source-option-name{flex:1;min-width:0;font-size:14px;font-weight:600;overflow-wrap:anywhere}
+.source-count-pill{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;padding:5px 9px;background:#e0f1e3;color:#24583a;border-radius:999px;font-size:11px;font-weight:800;white-space:nowrap}
+.source-radio{display:inline-block;flex-shrink:0;width:19px;height:19px;border:2px solid #8c9d90;border-radius:50%;position:relative}
+.source-option.chosen .source-radio{border-color:#286342}
+.source-option.chosen .source-radio:after{content:"";position:absolute;inset:3px;border-radius:50%;background:#286342}
+.source-option.chosen .source-option-name{color:#245b3b;font-weight:800}
+@media(max-width:360px){.source-option{gap:7px}.source-option-name{font-size:13px}.source-count-pill{font-size:10px;padding:5px 7px}}
