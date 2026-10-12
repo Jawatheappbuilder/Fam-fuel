@@ -21,6 +21,7 @@ function App(){
  const[shuffleSeed,setShuffleSeed]=useState(0);
  const goalOptions=[['easy','⚡','Low effort'],['few','☰','Few ingredients'],['quick','◷','Quick meal'],['budget','＄','Budget friendly'],['protein','◈','High protein'],['pantry','▣','Use my pantry'],['family','♡','Family friendly'],['new','↺',"Haven't cooked recently"]] as const;
  const toggleGoal=(id:string)=>setMealGoals(p=>p.includes(id)?p.filter(x=>x!==id):[...p,id]);
+ const pantryKey=(s:string)=>s.trim().toLowerCase();
  const matchesPantry=(r:Recipe)=>r.ingredients.filter(i=>pantry.includes(pantryKey(i.name))).length;
  const finderScore=(r:Recipe)=>{const count=r.ingredients.length;const minutes=r.minutes;const owned=matchesPantry(r);const lowEffort=minutes<=20&&count<=6?3:minutes<=35&&count<=8?2:minutes<=45?1:0;const scores:Record<string,number>={easy:lowEffort,few:count<=5?3:count<=7?2:count<=9?1:0,quick:minutes<=20?3:minutes<=30?2:minutes<=40?1:0,budget:count<=5?2:count<=8?1:0,protein:r.protein===undefined?0:r.protein>=40?3:r.protein>=30?2:r.protein>=20?1:0,pantry:count?3*owned/count:0,family:count<=7&&minutes<=35?2:1,new:!r.lastCooked?3:Math.min(3,(Date.now()-new Date(r.lastCooked).getTime())/(14*86400000))};return mealGoals.reduce((sum,g)=>sum+(scores[g]||0),0)};
  const finderResults=recipes.filter(r=>mealType==='Any'||r.category==='Both'||r.category===mealType).map(r=>({recipe:r,score:finderScore(r),owned:matchesPantry(r)})).sort((a,b)=>b.score-a.score||((a.recipe.id.length*17+shuffleSeed*13)%29)-((b.recipe.id.length*17+shuffleSeed*13)%29)||a.recipe.name.localeCompare(b.recipe.name));
@@ -29,7 +30,6 @@ function App(){
  const sorted=recipes.filter(r=>r.name.toLowerCase().includes(search.toLowerCase())&&(sourceFilter==='All'||recipeSource(r)===sourceFilter)).sort((a,b)=>Number(b.favourite)-Number(a.favourite));
  const suggestion=recipes.filter(r=>!r.lastCooked||Date.now()-new Date(r.lastCooked).getTime()>7*86400000)[0]||recipes[0];
  const cook=async(r:Recipe)=>{await db.recipes.update(r.id,{lastCooked:new Date().toISOString()});alert('Added to cooking history')};
- const pantryKey=(s:string)=>s.trim().toLowerCase();
  const togglePantry=(name:string,checked:boolean)=>setPantry(prev=>{const key=pantryKey(name);const next=checked?[...new Set([...prev,key])]:prev.filter(x=>x!==key);localStorage.setItem('family-fuel-pantry',JSON.stringify(next));return next});
  const plan=async(r:Recipe,meal:'Lunch'|'Dinner'='Dinner',date=day())=>{await db.plans.add({id:uid(),date,meal,recipeId:r.id,servings:r.servings});alert('Added to meal plan')};
  const addMissing=async(r:Recipe)=>{const missing=r.ingredients.filter((_,n)=>!have.includes(r.id+':'+n));for(const i of missing){const match=shopping.find(s=>s.name.toLowerCase()===i.name.toLowerCase()&&s.unit===i.unit&&!s.checked);if(match)await db.shopping.update(match.id,{qty:match.qty+i.qty});else await db.shopping.add({id:uid(),name:i.name,qty:i.qty,unit:i.unit,checked:false,manual:true})}setHave([]);setTab('Shop');setSelected(null)};
