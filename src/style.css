@@ -20,3 +20,6 @@
 
 /* Planned meal confirmation and reusable pantry checklist */
 .planner-select.planned{background:#e3f2e5!important;border-color:#a7cfb0!important;color:#24633b!important;font-weight:800!important}.pantry-modal-backdrop{position:fixed;inset:0;background:#132c1f99;z-index:100;display:flex;align-items:flex-end;justify-content:center;padding:12px 12px max(12px,env(safe-area-inset-bottom))}.pantry-modal{box-sizing:border-box;background:#fafbf7;color:#263d2d;border-radius:24px;width:100%;max-width:550px;max-height:88dvh;overflow:auto;padding:22px 18px;box-shadow:0 14px 50px #0004}.pantry-modal h2{margin:0 0 10px;font-size:24px}.pantry-modal p{font-size:14px;line-height:1.45}.pantry-modal-list{display:grid;gap:7px;max-height:44dvh;overflow:auto;margin:16px 0}.pantry-modal-actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}.pantry-modal-actions .btn{flex:1;min-width:140px;text-align:center}@media(min-width:650px){.pantry-modal-backdrop{align-items:center}}
+
+/* Shopping list actions */
+.shop-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:10px 0}.shop-toolbar .btn{flex:1;min-width:135px;white-space:nowrap}.shop-toolbar .clear-shop-btn{background:#fff!important;color:#a34037!important;border:1px solid #dfb7b1!important}.shop-toolbar .clear-shop-btn:disabled{opacity:.45;cursor:not-allowed}
