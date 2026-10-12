@@ -5,3 +5,6 @@
 
 /* Full-size app-style bottom navigation */
 .bottom-nav{background:#315e45!important;border-top:1px solid #274f39!important;box-shadow:0 -6px 24px #173d2c30!important;padding:9px 7px max(12px,env(safe-area-inset-bottom))!important;min-height:86px;gap:3px}.nav-button{min-height:70px!important;color:#d9e9dd!important;border-radius:15px!important;gap:5px!important;padding:8px 0!important}.nav-button.active{background:#47775a!important;color:#fff!important}.nav-icon{font-size:33px!important;min-height:39px!important}.nav-label{font-size:12px!important;font-weight:700!important;letter-spacing:.1px}main{padding-bottom:135px!important}
+
+/* Recipe source attribution and supermarket shopping groups */
+.recipe-card{position:relative!important}.recipe-card-end{display:flex;align-self:stretch;flex-direction:column;align-items:flex-end;justify-content:space-between;gap:8px;flex-shrink:0}.source-pill{background:#315e45;color:#fff;border-radius:999px;font-size:10px;line-height:1.1;font-weight:700;padding:5px 8px;white-space:nowrap;letter-spacing:.1px}.recipe-chevron{font-size:22px;margin:auto 0}.shop-group{margin:20px 0}.shop-group h3{display:flex;align-items:center;justify-content:space-between;color:#294d39;margin:0 0 10px;font-size:19px}.shop-group h3 small{font-size:12px;font-weight:600;color:#6d806f}
